@@ -11,8 +11,6 @@ import app.service.EventService;
 import app.service.TicketService;
 import app.service.UserService;
 import java.time.LocalDateTime;
-import java.util.Map;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
