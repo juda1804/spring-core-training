@@ -1,21 +1,20 @@
-package config;
+package app.config;
 
-import dao.EventDao;
-import dao.TicketDao;
-import dao.UserDao;
-import domain.Event;
-import domain.Ticket;
-import domain.User;
-import facade.BookingFacade;
-import facade.BookingFacadeImpl;
+import app.domain.Event;
+import app.domain.Ticket;
+import app.domain.User;
+import app.facade.BookingFacade;
+import app.facade.BookingFacadeImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import service.EventService;
-import service.TicketService;
-import service.UserService;
+import app.service.EventService;
+import app.service.TicketService;
+import app.service.UserService;
 
 @Configuration
 public class AppConfig {
@@ -24,46 +23,9 @@ public class AppConfig {
     private String filePath;
 
     @Bean
-    public UserDao userDao() {
-        return new UserDao();
-    }
-
-    @Bean
-    public EventDao eventDao() {
-        return new EventDao();
-    }
-
-    @Bean
-    public TicketDao ticketDao() {
-        return new TicketDao();
-    }
-
-    @Bean
-    public UserService userService(UserDao userDao) {
-        UserService userService = new UserService();
-        userService.setUserDao(userDao);
-        return userService;
-    }
-
-    @Bean
-    public EventService eventService(EventDao eventDao) {
-        EventService eventService = new EventService();
-        eventService.setEventDao(eventDao);
-        return eventService;
-    }
-
-    @Bean
-    public TicketService ticketService(TicketDao ticketDao) {
-        TicketService ticketService = new TicketService();
-        ticketService.setTicketDao(ticketDao);
-        return ticketService;
-    }
-
-    @Bean
     public BookingFacade bookingFacade(UserService userService, EventService eventService, TicketService ticketService) {
         return new BookingFacadeImpl(userService, eventService, ticketService);
     }
-
 
     @Bean
     public Map<String, Event> createEventInitDataStore() {
@@ -79,6 +41,14 @@ public class AppConfig {
     }
 
     @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        return mapper;
+    }
+
+    /*
+    @Bean
     public StorageInitializer storageInitializer(
             Map<String, Event> initialEvents,
             Map<String, User> initialUsers,
@@ -88,4 +58,6 @@ public class AppConfig {
         initializer.setFilePath(filePath);
         return initializer;
     }
+
+     */
 }
