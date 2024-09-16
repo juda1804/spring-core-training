@@ -1,4 +1,4 @@
-package app.domain;
+package com.epam.training.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Ticket {
     private Long id;
-    private Long userId;
+    private User user;
     private Long eventId;
     private int place;
     private TicketCategory category;

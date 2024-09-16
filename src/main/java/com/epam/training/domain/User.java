@@ -1,4 +1,4 @@
-package app.domain;
+package com.epam.training.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

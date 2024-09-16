@@ -1,14 +1,14 @@
-package app.facade;
+package com.epam.training.facade;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import app.domain.Event;
-import app.domain.Ticket;
-import app.domain.User;
-import app.service.EventService;
-import app.service.TicketService;
-import app.service.UserService;
+import com.epam.training.domain.Event;
+import com.epam.training.domain.Ticket;
+import com.epam.training.domain.User;
+import com.epam.training.service.EventService;
+import com.epam.training.service.TicketService;
+import com.epam.training.service.UserService;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,7 +63,7 @@ class BookingFacadeImplTest {
         Event event = new Event(id, title, date);
         when(eventService.createEvent(any(Event.class))).thenReturn(event);
 
-        Event createdEvent = bookingFacade.createEvent(id, title, date.toString());
+        Event createdEvent = bookingFacade.createEvent(id, title, date);
 
         assertNotNull(createdEvent);
         assertEquals(id, createdEvent.getId());
@@ -82,12 +82,13 @@ class BookingFacadeImplTest {
 
         doNothing().when(ticketService).bookTicket(any(Ticket.class));
 
+        when(userService.getUserById(anyLong())).thenReturn(new User(userId,"name", "email"));
         Ticket bookedTicket = bookingFacade.bookTicket(ticketId, eventId, userId, place, category);
 
         assertNotNull(bookedTicket);
         assertEquals(ticketId, bookedTicket.getId());
         assertEquals(eventId, bookedTicket.getEventId());
-        assertEquals(userId, bookedTicket.getUserId());
+        assertEquals(userId, bookedTicket.getUser().getId());
         assertEquals(place, bookedTicket.getPlace());
         assertEquals(Ticket.TicketCategory.VIP, bookedTicket.getCategory());
 

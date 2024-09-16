@@ -1,15 +1,14 @@
-package app;
+package com.epam.training;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mockStatic;
 
-import app.dao.StorageBean;
-import app.domain.Event;
-import app.domain.Ticket;
-import app.domain.User;
-import app.service.EventService;
-import app.service.TicketService;
-import app.service.UserService;
+import com.epam.training.domain.Event;
+import com.epam.training.domain.Ticket;
+import com.epam.training.domain.User;
+import com.epam.training.service.EventService;
+import com.epam.training.service.TicketService;
+import com.epam.training.service.UserService;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,6 @@ class SpringCoreAppTest {
 
     @Autowired
     private TicketService ticketService;
-
-    @Autowired
-    private StorageBean storageBean;
 
     @Test
     void testMain() {
@@ -48,7 +44,14 @@ class SpringCoreAppTest {
 
     @Test
     void testCreateTicket() {
-        ticketService.bookTicket(new Ticket(101L, 1L, 1L, 100, Ticket.TicketCategory.STANDARD));
+        ticketService.bookTicket(
+                new Ticket(
+                        101L,
+                        new User(12312L, "test", "email@email.com"),
+                        1L,
+                        100,
+                        Ticket.TicketCategory.STANDARD)
+        );
         Ticket ticket = ticketService.getTicketById(101L);
         assertEquals(Ticket.TicketCategory.STANDARD, ticket.getCategory());
     }

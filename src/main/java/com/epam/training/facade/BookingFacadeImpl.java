@@ -1,11 +1,11 @@
-package app.facade;
+package com.epam.training.facade;
 
-import app.domain.Event;
-import app.domain.Ticket;
-import app.domain.User;
-import app.service.EventService;
-import app.service.TicketService;
-import app.service.UserService;
+import com.epam.training.domain.Event;
+import com.epam.training.domain.Ticket;
+import com.epam.training.domain.User;
+import com.epam.training.service.EventService;
+import com.epam.training.service.TicketService;
+import com.epam.training.service.UserService;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
@@ -28,14 +28,15 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Event createEvent(Long id, String title, String date) {
-        return eventService.createEvent(new Event(id, title, LocalDateTime.now()));
+    public Event createEvent(Long id, String title, LocalDateTime date) {
+        return eventService.createEvent(new Event(id, title, date));
     }
 
     @Override
     public Ticket bookTicket(Long ticketId, Long eventId, Long userId, Integer place, String category) {
         Ticket.TicketCategory ticketCategory = Ticket.TicketCategory.valueOf(category);
-        Ticket ticket = new Ticket(ticketId, userId, eventId, place, ticketCategory);
+        User user = userService.getUserById(userId);
+        Ticket ticket = new Ticket(ticketId, user, eventId, place, ticketCategory);
         ticketService.bookTicket(ticket);
         return ticket;
     }
