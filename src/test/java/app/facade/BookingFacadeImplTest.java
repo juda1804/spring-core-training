@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import app.domain.Event;
 import app.domain.Ticket;
+import app.domain.TicketCategory;
 import app.domain.User;
 import app.service.EventService;
 import app.service.TicketService;
@@ -89,7 +90,7 @@ class BookingFacadeImplTest {
         assertEquals(eventId, bookedTicket.getEventId());
         assertEquals(userId, bookedTicket.getUserId());
         assertEquals(place, bookedTicket.getPlace());
-        assertEquals(Ticket.TicketCategory.VIP, bookedTicket.getCategory());
+        assertEquals(TicketCategory.VIP, bookedTicket.getCategory());
 
         verify(ticketService, times(1)).bookTicket(any(Ticket.class));
     }

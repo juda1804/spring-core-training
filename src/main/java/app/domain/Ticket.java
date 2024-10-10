@@ -13,6 +13,4 @@ public class Ticket {
     private Long eventId;
     private int place;
     private TicketCategory category;
-
-    public enum TicketCategory { STANDARD, PREMIUM, VIP }
 }
