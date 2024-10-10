@@ -9,10 +9,12 @@ import app.domain.Event;
 import app.domain.Ticket;
 import app.domain.TicketCategory;
 import app.domain.User;
+import app.facade.BookingFacade;
 import app.service.EventService;
 import app.service.TicketService;
 import app.service.UserService;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -21,13 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SpringCoreAppTest {
     @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private TicketService ticketService;
+    private BookingFacade bookingFacade;
 
     @Test
     void testMain() {
@@ -40,23 +36,26 @@ class SpringCoreAppTest {
 
     @Test
     void testCreateEvent() {
-        eventService.createEvent(new Event(100L,"demo", LocalDateTime.now()));
-        Event eventById = eventService.getEventById(100L);
+        Event eventById = bookingFacade.createEvent(100L, "demo", LocalDateTime.now());
         assertEquals("demo", eventById.getTitle());
     }
 
     @Test
     void testCreateTicket() {
-        ticketService.bookTicket(new Ticket(101L, 1L, 1L, 100, STANDARD));
-        Ticket ticket = ticketService.getTicketById(101L);
-        assertEquals(STANDARD, ticket.getCategory());
+        bookingFacade.bookTicket(101L, 1L, 1L, 100, STANDARD.name());
+        Optional<Ticket> ticket = bookingFacade.getTicketById(101L);
+
+        assertTrue(ticket.isPresent());
+        assertEquals(STANDARD, ticket.get().getCategory());
     }
 
     @Test
     void testCreateUser() {
-        userService.createUser(new User(9999L, "Juan", "juan@epam.com"));
-        User user = userService.getUserById(9999L);
-        assertEquals("Juan", user.getName());
+        bookingFacade.createUser(9999L, "Juan", "juan@epam.com");
+        Optional<User> user = bookingFacade.getUserById(9999L);
+
+        assertTrue(user.isPresent());
+        assertEquals("Juan", user.get().getName());
     }
 
 }

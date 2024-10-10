@@ -8,6 +8,7 @@ import app.service.EventService;
 import app.service.TicketService;
 import app.service.UserService;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,7 +30,7 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Event createEvent(Long id, String title, String date) {
+    public Event createEvent(Long id, String title, LocalDateTime date) {
         return eventService.createEvent(new Event(id, title, LocalDateTime.now()));
     }
 
@@ -39,5 +40,20 @@ public class BookingFacadeImpl implements BookingFacade {
         Ticket ticket = new Ticket(ticketId, userId, eventId, place, ticketCategory);
         ticketService.bookTicket(ticket);
         return ticket;
+    }
+
+    @Override
+    public Optional<Ticket> getTicketById(Long ticketId) {
+        return Optional.ofNullable(ticketService.getTicketById(ticketId));
+    }
+
+    @Override
+    public Optional<Event> getEventById(Long eventId) {
+        return Optional.ofNullable(eventService.getEventById(eventId));
+    }
+
+    @Override
+    public Optional<User> getUserById(Long userId) {
+        return Optional.ofNullable(userService.getUserById(userId));
     }
 }

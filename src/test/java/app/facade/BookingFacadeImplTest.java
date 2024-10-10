@@ -64,7 +64,7 @@ class BookingFacadeImplTest {
         Event event = new Event(id, title, date);
         when(eventService.createEvent(any(Event.class))).thenReturn(event);
 
-        Event createdEvent = bookingFacade.createEvent(id, title, date.toString());
+        Event createdEvent = bookingFacade.createEvent(id, title, date);
 
         assertNotNull(createdEvent);
         assertEquals(id, createdEvent.getId());
