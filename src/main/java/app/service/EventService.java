@@ -25,5 +25,7 @@ public class EventService {
         log.info("Retrieving event by id {}", id);
         return eventDao.findEventById(id);
     }
+
+
 }
 

@@ -2,6 +2,7 @@ package app.facade;
 
 import app.domain.Event;
 import app.domain.Ticket;
+import app.domain.TicketCategory;
 import app.domain.User;
 import app.service.EventService;
 import app.service.TicketService;
@@ -34,7 +35,7 @@ public class BookingFacadeImpl implements BookingFacade {
 
     @Override
     public Ticket bookTicket(Long ticketId, Long eventId, Long userId, Integer place, String category) {
-        Ticket.TicketCategory ticketCategory = Ticket.TicketCategory.valueOf(category);
+        TicketCategory ticketCategory = TicketCategory.valueOf(category);
         Ticket ticket = new Ticket(ticketId, userId, eventId, place, ticketCategory);
         ticketService.bookTicket(ticket);
         return ticket;

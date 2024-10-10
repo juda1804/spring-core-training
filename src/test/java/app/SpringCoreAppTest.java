@@ -1,11 +1,13 @@
 package app;
 
+import static app.domain.TicketCategory.STANDARD;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mockStatic;
 
 import app.dao.StorageBean;
 import app.domain.Event;
 import app.domain.Ticket;
+import app.domain.TicketCategory;
 import app.domain.User;
 import app.service.EventService;
 import app.service.TicketService;
@@ -27,9 +29,6 @@ class SpringCoreAppTest {
     @Autowired
     private TicketService ticketService;
 
-    @Autowired
-    private StorageBean storageBean;
-
     @Test
     void testMain() {
         try (var mockedSpringApplication = mockStatic(SpringApplication.class)) {
@@ -48,15 +47,15 @@ class SpringCoreAppTest {
 
     @Test
     void testCreateTicket() {
-        ticketService.bookTicket(new Ticket(101L, 1L, 1L, 100, Ticket.TicketCategory.STANDARD));
+        ticketService.bookTicket(new Ticket(101L, 1L, 1L, 100, STANDARD));
         Ticket ticket = ticketService.getTicketById(101L);
-        assertEquals(Ticket.TicketCategory.STANDARD, ticket.getCategory());
+        assertEquals(STANDARD, ticket.getCategory());
     }
 
     @Test
     void testCreateUser() {
-        userService.createUser(new User(102L, "Juan", "juan@epam.com"));
-        User user = userService.getUserById(102L);
+        userService.createUser(new User(9999L, "Juan", "juan@epam.com"));
+        User user = userService.getUserById(9999L);
         assertEquals("Juan", user.getName());
     }
 
